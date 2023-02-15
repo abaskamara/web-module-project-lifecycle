@@ -8,6 +8,7 @@ const URL = 'http://localhost:9000/api/todos'
 export default class App extends React.Component {
   state = {
     todos: [],
+    error: '',
   }
 
 fetchAllTodos = () => {
@@ -16,7 +17,7 @@ fetchAllTodos = () => {
       this.setState({...this.state, todos: res.data.data})
     })
     .catch(err => {
-      
+      this.setState({...this.state, error:err.response.data.message})
     })
 }
 
@@ -27,7 +28,7 @@ componentDidMount() {
   render() {
     return (
       <div>
-      <div id='error'>Error: No error here</div>
+      <div id='error'>Error: {this.state.error}</div>
       <div id='todos'>
         <h2>Todos:</h2>
         {
@@ -35,8 +36,6 @@ componentDidMount() {
             return <div key={td.id}>{td.name}</div>
           })
         }
-        <div>Walk the dog</div>
-        <div>Learn React</div>
       </div>
 
       <form id='todoForm'>
